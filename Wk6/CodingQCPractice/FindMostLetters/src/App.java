@@ -1,5 +1,7 @@
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -8,7 +10,77 @@ public class App {
 
     public static String findTheMostOccuringLetters(String[] listOfString)
     {
-        return "";
+         
+            List<Character> sortedCharList = new ArrayList();
+            Map<Character, Integer>  charMap = new HashMap<Character, Integer>();
+
+            
+
+            //we use this to determine the max occurrence
+            int currentMax = 0;
+
+        for (int i=0; i<listOfString.length; i++) {
+            //we need to iterate through each string in the array
+            
+        
+            //we convert the string into a List of Characters so we can sort easily
+            for (int j=0; j<listOfString[i].length(); j++){
+                String s = listOfString[i];
+                char c = s.charAt(j);
+
+                sortedCharList.add(c);
+            }
+
+            //we sort after each string is converted
+            sortedCharList.sort(null);
+
+            //for debugging
+            System.out.println(sortedCharList.toString());
+        }
+
+        //we need to count the frequency of each letter
+        for (int k=0; k<sortedCharList.size();k++) {
+            char c = sortedCharList.get(k);
+
+            Integer temp = charMap.get(c);
+
+            //if the character key doesn't exist in the map, we add the first occurrence
+            if (temp == null) {
+                charMap.put(c, 1);
+            } 
+            //otherwise we increment the value of the key
+            else {
+                temp = temp.intValue()+1;
+                charMap.put(c, temp);
+            }
+        }
+
+        //our char map is created successfully
+        System.out.println(charMap);
+
+        //this will hold the final answer as a map entry
+        Map.Entry<Character, Integer> answer = new Entry<Character,Integer>() {
+            
+        };
+
+        //we need to find the max occurence in the map and return the correct answer
+        for (Map.Entry<Character, Integer> entry : charMap.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + " Value: " + entry.getValue());
+            
+            //if the entry value is larger then the currentMax the answer is switched out
+            if(entry.getValue() > currentMax) {
+                answer = entry;
+
+                //we remember to set the currentMax to the new  larger value
+                currentMax = entry.getValue();
+            }
+        }
+
+        //debugging
+        System.out.println(answer.toString());
+
+        //finally we return the correct answer
+        return answer.getKey() + " - " + answer.getValue();
     }
     public static void main(String[] args) throws Exception {
         Map<String[], String> testcases = new HashMap<>();
